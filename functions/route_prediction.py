@@ -1,11 +1,15 @@
 from data import *
 from mapping import on_map
 import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.multioutput import MultiOutputRegressor
+from sklearn.multioutput import RegressorChain
 from sklearn.linear_model import Ridge
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
 from sklearn.neural_network import MLPRegressor
+
+
 
 file = 'TEST_LOGGER_logger_20220124_20-39-04.log'
 
@@ -46,11 +50,17 @@ ml_SVM['Data Type'] = 'Support Vector Machine'
 ml_SVM.to_csv(output, index=False, mode='a', header=False)
 
 # Neural Network (Multi-layer Perceptron)
-regr = MLPRegressor(random_state=47, max_iter=500, learning_rate='adaptive').fit(X, y)
+scaler = MinMaxScaler()
+X = scaler.fit_transform(X)
+
+regr = MLPRegressor(max_iter=5000, activation = 'logistic', alpha=1e-20).fit(X, y)
 ml_NN = regr.predict(X)
+print(ml_NN)
 ml_NN = pd.DataFrame(ml_NN, columns = [' lat', ' lon'])
 ml_NN['Data Type'] = 'Neural Network'
 ml_NN.to_csv(output, index=False, mode='a', header=False)
+
+
 
 
 on_map(file_name)
