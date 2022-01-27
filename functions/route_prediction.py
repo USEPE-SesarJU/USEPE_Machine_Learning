@@ -38,4 +38,8 @@ ml_Random_Forest['Data Type'] = 'Random Forest'
 ml_Random_Forest.to_csv(output, index=False, mode='a', header=False)
 
 # Support Vector Machine
-regr = SGDRegressor(max_iter=1000, tol=1e-3).fit(X, y)
+regr = MultiOutputRegressor(SVR(kernel = "rbf", C = 1e3, gamma = 1e-8, epsilon = 0.001)).fit(X, y)
+ml_SVM = regr.predict(X)
+ml_SVM = pd.DataFrame(ml_SVM, columns = [' lat', ' lon'])
+ml_SVM['Data Type'] = 'Support Vector Machine'
+ml_SVM.to_csv(output, index=False, mode='a', header=False)
