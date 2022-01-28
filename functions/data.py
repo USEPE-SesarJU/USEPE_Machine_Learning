@@ -2,7 +2,7 @@ import pandas as pd
 from pandas import read_csv
 import os
 
-# file_name = 'TEST_LOGGER_logger_20220123_12-57-27.log'
+file_name = 'TEST_LOGGER_logger_20220123_12-57-27.log'
 header_line = 1
 
 ### Data importer function
@@ -16,8 +16,9 @@ def data_import(file_name, header_line):
 # d = data_import(file_name)
 # print(d)
 
+
 ### Data exporter function
-def data_export(file_name):
+def data_export(file):
+    file_name = (file[:-4] + '.csv')
     f = os.path.join(os.path.dirname(__file__), '..', 'data', file_name)
     return(f)
-    

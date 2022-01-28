@@ -1,66 +1,42 @@
-from data import *
+from data import data_import
+from data import data_export
+from ml_ridge import ridge_regressor
+from ml_RF import RF_regressor
+from ml_SVM import SVM_regressor
 from mapping import on_map
-import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.multioutput import MultiOutputRegressor
-from sklearn.multioutput import RegressorChain
-from sklearn.linear_model import Ridge
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.svm import SVR
-from sklearn.neural_network import MLPRegressor
 
-
+# from sklearn.neural_network import MLPRegressor
 
 file = 'TEST_LOGGER_logger_20220124_20-39-04.log'
-
-file_name = (file[:-4] + '.csv')
-output = data_export(file_name)
-
+result_file_name = (file[:-4] + '.csv')
+result_file = data_export(result_file_name)
 
 # write original route
 d = data_import(file,1)
 d_Lat_Lon = d[[' lat', ' lon']]
 d_Lat_Lon[' Data Type'] = 'Original Route'
-d_Lat_Lon.to_csv(output, index=False)
+d_Lat_Lon.to_csv(result_file, index=False)
 
-# select data columns for ML training
+# Select data columns for ML training
 d = d.to_numpy()
 X = d[:,[0,5,6,7,8,9,10,11,12]]
 y = d[:,[3,4]]
 
-# Ridge
-regr = MultiOutputRegressor(Ridge(random_state=123)).fit(X, y)
-ml_Ridge = regr.predict(X)
-ml_Ridge = pd.DataFrame(ml_Ridge, columns = [' lat', ' lon'])
-ml_Ridge['Data Type'] = 'Ridge'
-ml_Ridge.to_csv(output, index=False, mode='a', header=False)
+ridge_regressor(result_file, X, y)
+RF_regressor(result_file, X, y)
+SVM_regressor(result_file, X, y)
 
-# Random Forest
-regr = RandomForestRegressor(max_depth=2, random_state=0).fit(X, y)
-ml_Random_Forest = regr.predict(X)
-ml_Random_Forest = pd.DataFrame(ml_Random_Forest, columns = [' lat', ' lon'])
-ml_Random_Forest['Data Type'] = 'Random Forest'
-ml_Random_Forest.to_csv(output, index=False, mode='a', header=False)
-
-# Support Vector Machine
-regr = MultiOutputRegressor(SVR(kernel = "rbf", C = 1e3, gamma = 1e-8, epsilon = 0.001)).fit(X, y)
-ml_SVM = regr.predict(X)
-ml_SVM = pd.DataFrame(ml_SVM, columns = [' lat', ' lon'])
-ml_SVM['Data Type'] = 'Support Vector Machine'
-ml_SVM.to_csv(output, index=False, mode='a', header=False)
-
-# Neural Network (Multi-layer Perceptron)
-scaler = MinMaxScaler()
-X = scaler.fit_transform(X)
-
-regr = MLPRegressor(max_iter=5000, activation = 'logistic', alpha=1e-20).fit(X, y)
-ml_NN = regr.predict(X)
-print(ml_NN)
-ml_NN = pd.DataFrame(ml_NN, columns = [' lat', ' lon'])
-ml_NN['Data Type'] = 'Neural Network'
-ml_NN.to_csv(output, index=False, mode='a', header=False)
+on_map(result_file_name)
 
 
+# # Neural Network (Multi-layer Perceptron)
+# scaler = MinMaxScaler()
+# X = scaler.fit_transform(X)
 
+# regr = MLPRegressor(max_iter=5000, activation = 'logistic', alpha=1e-20).fit(X, y)
+# ml_NN = regr.predict(X)
+# print(ml_NN)
+# ml_NN = pd.DataFrame(ml_NN, columns = [' lat', ' lon'])
+# ml_NN['Data Type'] = 'Neural Network'
+# ml_NN.to_csv(output, index=False, mode='a', header=False)
 
-on_map(file_name)

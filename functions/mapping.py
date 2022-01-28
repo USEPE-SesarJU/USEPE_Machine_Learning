@@ -1,10 +1,8 @@
 import pandas as pd
 import os
 import plotly.express as px
-from data import *
-
-file = 'TEST_LOGGER_logger_20220124_20-39-04.csv'
-
+from data import data_import
+from data import data_export
 
 def on_map(file):
     d = data_import(file, 0)
