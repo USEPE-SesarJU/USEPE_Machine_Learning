@@ -11,4 +11,4 @@ def on_map(file):
     fig.update_layout(mapbox_style="stamen-terrain", mapbox_zoom=11, mapbox_center_lat = 52.45, margin={"r":0,"t":0,"l":0,"b":0})
     fig.show()
     figure_name = (file[:-4] + '.png')
-    fig.write_image(data_export(figure_name))
+    fig.write_image(data_export(figure_name),format='png')
