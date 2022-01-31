@@ -17,8 +17,14 @@ def data_import(file_name, header_line):
 # print(d)
 
 
-### Data exporter function
+### Exporter function for ML result
 def data_export(file):
     file_name = (file[:-4] + '.csv')
+    f = os.path.join(os.path.dirname(__file__), '..', 'data', file_name)
+    return(f)
+
+### Exporter function for map
+def export_png(file):
+    file_name = (file[:-4] + '.png')
     f = os.path.join(os.path.dirname(__file__), '..', 'data', file_name)
     return(f)
