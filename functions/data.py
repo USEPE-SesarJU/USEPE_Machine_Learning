@@ -2,9 +2,6 @@ import pandas as pd
 from pandas import read_csv
 import os
 
-file_name = 'TEST_LOGGER_logger_20220123_12-57-27.log'
-header_line = 1
-
 ### Data importer function
 def data_import(file_name, header_line):
     #Opening the file

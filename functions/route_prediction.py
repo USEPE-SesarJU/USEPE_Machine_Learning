@@ -13,7 +13,6 @@ result_file = data_export(result_file_name)
 
 # write original route
 d = data_import(file,1)
-print(d)
 d_Lat_Lon = d[[' lat', ' lon']]
 d_Lat_Lon[' Data Type'] = 'Original Route'
 d_Lat_Lon.to_csv(result_file, index=False)

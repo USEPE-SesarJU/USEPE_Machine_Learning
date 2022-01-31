@@ -11,6 +11,3 @@ def on_map(file):
     fig.update_layout(mapbox_style="stamen-terrain", mapbox_zoom=11, mapbox_center_lat = 52.45, margin={"r":0,"t":0,"l":0,"b":0})
     fig.show()
     fig.write_image(export_png(file))
-
-
-on_map('TEST_LOGGER_logger_20220124_20-39-04.csv')
