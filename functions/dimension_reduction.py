@@ -1,5 +1,5 @@
-from data import data_import
-from data import data_export
+from data_parser import data_import
+from data_parser import data_export
 from sklearn.decomposition import PCA
 import numpy as np
 

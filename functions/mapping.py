@@ -1,9 +1,9 @@
 import pandas as pd
 import os
 import plotly.express as px
-from data import data_import
-from data import data_export
-from data import export_png
+from data_parser import data_import
+from data_parser import data_export
+from data_parser import export_png
 
 def on_map(file):
     d = data_import(file, 0)
